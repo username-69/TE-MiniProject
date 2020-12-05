@@ -1,7 +1,3 @@
 <resources>
     <string name="app_name">Mini</string>
-    <string-array name="items">
-        <item>child1</item>
-        <item>child2</item>
-    </string-array>
 </resources>

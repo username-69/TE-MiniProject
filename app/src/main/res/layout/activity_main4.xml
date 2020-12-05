@@ -9,7 +9,7 @@
     tools:context=".MainActivity4">
 
     <Button
-        android:id="@+id/button_submit"
+        android:id="@+id/btnSubmitChild"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="58dp"
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toTopOf="@+id/topview3" />
 
     <Button
-        android:id="@+id/button_Add"
+        android:id="@+id/btnAddChild"
         android:layout_width="70dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/spinnerShowChildren"
         android:layout_width="345dp"
         android:layout_height="53dp"
         android:layout_marginTop="120dp"

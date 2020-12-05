@@ -9,38 +9,55 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-public class MainActivity4 extends AppCompatActivity {
-    private Button button_Add;
-    private Button button_submit;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+public class MainActivity4 extends AppCompatActivity {
+
+    private FirebaseUser firebaseUser;
+    private Button btnMainAddChild;
+    private Button btnMainSubmit;
+    private Spinner spinnerChildren;
+    private userDB currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
 
-        button_Add = (Button) findViewById(R.id.button_Add);
-        button_Add.setOnClickListener(new View.OnClickListener() {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        btnMainAddChild = (Button) findViewById(R.id.btnAddChild);
+        btnMainSubmit = (Button) findViewById(R.id.btnSubmitChild);
+        spinnerChildren = (Spinner) findViewById(R.id.spinnerShowChildren);
+        btnMainAddChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 OpenActivity3();
             }
         });
-
-        button_submit = (Button) findViewById(R.id.button_submit);
-        button_submit.setOnClickListener(new View.OnClickListener() {
+        btnMainSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 OpenActivity5_QR();
             }
         });
+        ArrayList<childDB> userChildrenList = new ArrayList<>();
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter<childDB> childAdapter = new ArrayAdapter<childDB>(
+                MainActivity4.this,
+                android.R.layout.simple_spinner_dropdown_item,
+                userChildrenList
+        );
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity4.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.items));
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(myAdapter);
+        userChildrenList.add(new childDB(1234, "Child 1", "Place", new Date(01 - 01 - 0000), 'M'));
+        userChildrenList.add(new childDB(1235, "Child 2", "Place", new Date(01 - 01 - 0000), 'F'));
+
+        //TODO Check if the following is required or not.
+//        childAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerChildren.setAdapter(childAdapter);
     }
 
     public void OpenActivity3(){
