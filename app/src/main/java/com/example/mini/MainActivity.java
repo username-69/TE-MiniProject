@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnMainRegister;
     private EditText edtMainSignInEmail, edtMainSignInPassword;
     private TextView mainForgotPassword;
+    private ProgressBar progressBarMainSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        progressBarMainSignIn = findViewById(R.id.progressBarSignIn);
+        progressBarMainSignIn.setVisibility(View.GONE);
 
         btnMainSignIn = (Button) findViewById(R.id.btnSignIn);
         btnMainSignIn.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logInSuccessful() {
+
         edtMainSignInEmail = findViewById(R.id.edtSignInEmail);
         edtMainSignInPassword = findViewById(R.id.edtSignInPassword);
 
@@ -89,21 +95,27 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        progressBarMainSignIn.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(signInEmail, signInPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     if (firebaseUser.isEmailVerified()) {
+//                        progressBarMainSignIn.setVisibility(View.VISIBLE);
                         Toast.makeText(MainActivity.this, "Login Successful.", Toast.LENGTH_SHORT).show();
                         edtMainSignInEmail.getText().clear();
                         edtMainSignInPassword.getText().clear();
                         OpenActivity4();
+                        progressBarMainSignIn.setVisibility(View.GONE);
                     } else {
                         firebaseUser.sendEmailVerification();
                         Toast.makeText(MainActivity.this, "Email ID not verified.", Toast.LENGTH_LONG).show();
+                        progressBarMainSignIn.setVisibility(View.GONE);
                     }
                 } else {
                     Toast.makeText(MainActivity.this, "Failed to login! Please check your credentials.", Toast.LENGTH_SHORT).show();
+                    edtMainSignInPassword.getText().clear();
+                    progressBarMainSignIn.setVisibility(View.GONE);
                 }
             }
         });
@@ -160,4 +172,3 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentRegisterActivity);
     }
 }
-

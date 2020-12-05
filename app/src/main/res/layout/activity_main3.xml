@@ -7,7 +7,7 @@
     tools:context=".MainActivity3">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnAct3Submit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="58dp"
@@ -21,11 +21,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName7"
+        app:layout_constraintTop_toBottomOf="@+id/edtActChildPOB"
         app:layout_constraintVertical_bias="0.467" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName6"
+        android:id="@+id/edtActChildName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -47,7 +47,7 @@
         app:layout_constraintVertical_bias="0.724" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/edtActChildDOB"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -59,17 +59,17 @@
         android:ellipsize="end"
         android:ems="10"
         android:hint="Date of Birth (dd/mm/yyyy)"
-        android:inputType="date|textPersonName"
+        android:inputType="date"
         android:padding="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.451" />
+        app:layout_constraintVertical_bias="0.587" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName7"
+        android:id="@+id/edtActChildPOB"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -81,7 +81,7 @@
         android:ellipsize="end"
         android:ems="10"
         android:hint="Place of Birth"
-        android:inputType="textPersonName"
+        android:inputType="text"
         android:padding="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,7 @@
         app:layout_constraintVertical_bias="0.314" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName8"
+        android:id="@+id/edtActChildAge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -104,14 +104,14 @@
         android:ellipsize="end"
         android:ems="10"
         android:hint="Age of Child (in Weeks)"
-        android:inputType="textPersonName|text|numberDecimal"
+        android:inputType="number"
         android:padding="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.588" />
+        app:layout_constraintVertical_bias="0.457" />
 
     <View
         android:id="@+id/view"
@@ -160,41 +160,32 @@
         app:srcCompat="@drawable/ic_baseline_info_24" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="251dp"
-        android:layout_height="84dp"
-        android:layout_marginTop="240dp"
+        android:id="@+id/radioGroupGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="275dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/radio_boy"
+            android:id="@+id/radioBoy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="checkButton"
+            android:layout_marginRight="25dp"
             android:text="Boy"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/radioGroup"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            tools:layout_editor_absoluteX="245dp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/radio_girl"
+            android:id="@+id/radioGirl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:onClick="checkButton"
+            android:layout_marginLeft="25dp"
             android:text="Girl"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName6"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            tools:layout_editor_absoluteX="245dp" />
-
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RadioGroup>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
