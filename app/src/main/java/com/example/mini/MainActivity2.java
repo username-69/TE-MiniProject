@@ -3,6 +3,7 @@ package com.example.mini;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.media.MediaCodec;
 import android.os.Bundle;
@@ -19,17 +20,25 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity2 extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
     private FirebaseUser firebaseUser;
     private Button btnMainRegisterMe;
     private EditText edtMainRegisterEmail, edtMainRegisterPassword, getEdtMainRegisterConfirmPW;
     private ProgressBar progressBarRegisterMain;
+    //using default child and list so that there would be atleast one child when users create his account on App, because of fetching issues while adding more children
+    private List<childDB> defaultChildList = new ArrayList<>();
+    private childDB defaultChild;
+    private DOB defaultDOB = new DOB(01, 01, 2000);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,7 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         btnMainRegisterMe = findViewById(R.id.btnSubmit);
         edtMainRegisterEmail = findViewById(R.id.edtRegisterEmail);
@@ -54,7 +64,7 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     private void RegisterUser() {
-        final String getEmail = edtMainRegisterEmail.getText().toString();
+        String getEmail = edtMainRegisterEmail.getText().toString();
         String getPassword = edtMainRegisterPassword.getText().toString();
         String getConfirmPW = getEdtMainRegisterConfirmPW.getText().toString();
 
@@ -107,37 +117,37 @@ public class MainActivity2 extends AppCompatActivity {
             return;
         }
 
+        //initialisng the default child and also adding it to the default list
+        defaultChild = new childDB(-1, "108Name108108", "Default Place", 100, 0, defaultDOB);
+        //clearing it to be on the safe side
+        defaultChildList.clear();
+        defaultChildList.add(defaultChild);
+
         progressBarRegisterMain.setVisibility(View.VISIBLE);
         btnMainRegisterMe.requestFocus();
         mAuth.createUserWithEmailAndPassword(getEmail, getPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
                         if (task.isSuccessful()) {
-                            userDB registerSuccessful = new userDB(getEmail);
+                            progressBarRegisterMain.setVisibility(View.VISIBLE);
+                            Toast.makeText(MainActivity2.this, "Task failed unsuccessfully!", Toast.LENGTH_SHORT).show();
+                            if (firebaseUser != null) {
+                                firebaseUser.sendEmailVerification();
+                            }
+                            edtMainRegisterEmail.getText().clear();
+                            edtMainRegisterPassword.getText().clear();
+                            getEdtMainRegisterConfirmPW.getText().clear();
+                            btnMainRegisterMe.requestFocus();
+                            progressBarRegisterMain.setVisibility(View.GONE);
 
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(registerSuccessful).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        progressBarRegisterMain.setVisibility(View.VISIBLE);
-                                        Toast.makeText(MainActivity2.this, "Task failed unsuccessfully!", Toast.LENGTH_SHORT).show();
-                                        firebaseUser.sendEmailVerification();
-                                        edtMainRegisterEmail.getText().clear();
-                                        edtMainRegisterPassword.getText().clear();
-                                        getEdtMainRegisterConfirmPW.getText().clear();
-                                        btnMainRegisterMe.requestFocus();
-                                        progressBarRegisterMain.setVisibility(View.GONE);
-                                        OpenActivity2();
-                                    } else {
-                                        Toast.makeText(MainActivity2.this, "Sorry! Failed to register, try again.", Toast.LENGTH_LONG).show();
-                                        progressBarRegisterMain.setVisibility(View.GONE);
-                                    }
-                                }
-                            });
+//                                adding the default child to userDB and then to FBRT-DB
+                            userDB defaultUser = new userDB(defaultChildList);
+                            mDatabase
+                                    .child("Users")
+                                    .child(mAuth.getCurrentUser().getUid())
+                                    .setValue(defaultUser);
+                            OpenActivity2();
                         } else {
                             Toast.makeText(MainActivity2.this, "Failed to register, try again twice.", Toast.LENGTH_LONG).show();
                             progressBarRegisterMain.setVisibility(View.GONE);

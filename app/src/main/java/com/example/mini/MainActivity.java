@@ -39,7 +39,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = mAuth.getCurrentUser();
+
+        button = (Button) findViewById(R.id.btnHelp);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity7();
+            }
+        });
 
         progressBarMainSignIn = findViewById(R.id.progressBarSignIn);
         progressBarMainSignIn.setVisibility(View.GONE);
@@ -100,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    firebaseUser = mAuth.getCurrentUser();
                     if (firebaseUser.isEmailVerified()) {
-//                        progressBarMainSignIn.setVisibility(View.VISIBLE);
                         Toast.makeText(MainActivity.this, "Login Successful.", Toast.LENGTH_SHORT).show();
                         edtMainSignInEmail.getText().clear();
                         edtMainSignInPassword.getText().clear();

@@ -12,7 +12,7 @@
         android:id="@+id/btnSubmitChild"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
+        android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
         android:background="@drawable/round_bg"
         android:text="Submit"
@@ -23,8 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3"
-        app:layout_constraintVertical_bias="0.859" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerShowChildren" />
 
     <View
         android:id="@+id/view3"
@@ -46,30 +45,32 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="237dp"
-        android:layout_height="113dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Select Child "
         android:textColor="#F9FBFB"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/view3"
         app:layout_constraintEnd_toEndOf="@+id/topview3"
-        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintHorizontal_bias="0.183"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/topview3" />
+        app:layout_constraintTop_toTopOf="@+id/topview3"
+        app:layout_constraintVertical_bias="0.306" />
 
     <Button
         android:id="@+id/btnAddChild"
         android:layout_width="70dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/rounded_button"
         android:text="+"
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
@@ -77,11 +78,27 @@
         android:id="@+id/spinnerShowChildren"
         android:layout_width="345dp"
         android:layout_height="53dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/round_border"
         android:dropDownWidth="wrap_content"
+        android:padding="7sp"
+        android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <Button
+        android:id="@+id/btnSignOut"
+        android:layout_width="70dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_button"
+        android:text="-"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

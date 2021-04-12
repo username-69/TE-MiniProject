@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,23 +16,31 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ThrowOnExtraProperties;
+import com.google.firebase.database.ValueEventListener;
 
-import org.joda.time.LocalDate;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity3 extends AppCompatActivity {
+    private DatabaseReference databaseReference;
+    private DatabaseReference vaccineDBReference;
+    private FirebaseUser firebaseUser;
+
     private RadioGroup radioGroupMainGender;
     private int radioBtnMainChecked;
     private EditText edtMainChildName, edtMainChildDOB, edtMainChildAge, edtMainChildPOB;
     private Button btnMainSubmit;
+    private userDB localUser = new userDB();
     private childDB localChild = new childDB();
-
-    private FirebaseAuth mAuth;
-    private FirebaseUser firebaseUser;
-    private DatabaseReference databaseReference;
+    private DOB localChildDOB;
+    private List<childDB> localUserChildren = new ArrayList<>();
+    private List<VaccineData> wholeVaccineData = new ArrayList<>();
 
     private Random randomGenerator = new Random();
 
@@ -41,7 +50,42 @@ public class MainActivity3 extends AppCompatActivity {
         setContentView(R.layout.activity_main3);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("ChildrenList");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        vaccineDBReference = FirebaseDatabase.getInstance().getReference().child("VaccineDB");
+
+        databaseReference.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                localUser.setUserChildren(snapshot.getValue(userDB.class).getUserChildren());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity3.this, "Adding child failed please try later!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        vaccineDBReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    VaccineData sampleFetchedVaccine = new VaccineData();
+                    sampleFetchedVaccine.setVaccineName(dataSnapshot.getValue(VaccineData.class).getVaccineName());
+                    sampleFetchedVaccine.setVaccineDose(dataSnapshot.getValue(VaccineData.class).getVaccineDose());
+                    sampleFetchedVaccine.setVaccineWeek(dataSnapshot.getValue(VaccineData.class).getVaccineWeek());
+                    wholeVaccineData.add(sampleFetchedVaccine);
+                }
+                localChild.setChildVaccines(wholeVaccineData);
+                for (VaccineData tempVaccine : localChild.getChildVaccines()) {
+                    tempVaccine.setVaccincated(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity3.this, "Not happening bro! Tera at chuka hai!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         edtMainChildName = findViewById(R.id.edtActChildName);
         edtMainChildDOB = findViewById(R.id.edtActChildDOB);
@@ -75,7 +119,7 @@ public class MainActivity3 extends AppCompatActivity {
     private void btnMain3SubmitClicked() {
         String mainChildName = edtMainChildName.getText().toString();
         String mainChildPOB = edtMainChildPOB.getText().toString();
-        int mainChildAge = Integer.parseInt(edtMainChildAge.getText().toString());
+        String stringAge = edtMainChildAge.getText().toString();
 
         if (mainChildName.isEmpty()) {
             edtMainChildName.setError("Name is required.");
@@ -87,23 +131,43 @@ public class MainActivity3 extends AppCompatActivity {
             edtMainChildPOB.setError("Place of birth not provided.");
         }
 
-        //TODO If Child Age is not provided then app crashes, the following fix is not working check any other fix
-        if (edtMainChildAge.getText() == null) {
+        if (stringAge.isEmpty()) {
             edtMainChildAge.setError("Age is required.");
             edtMainChildAge.requestFocus();
             return;
         }
 
-//        TODO check how to input the dates from EditText, currently added jodo-time implementation
-//        LocalDate localDate = new LocalDate(2020,1,11);
-//        Toast.makeText(MainActivity3.this, localDate.toString(), Toast.LENGTH_SHORT).show();
+        if (edtMainChildDOB.getText().toString().isEmpty()) {
+            edtMainChildDOB.setError("Date of Birth required.");
+            edtMainChildDOB.requestFocus();
+            return;
+        }
+        String[] splitDate = edtMainChildDOB.getText().toString().split("/");
+        if (splitDate.length != 3) {
+            edtMainChildDOB.setError("Please enter the Date in correct format.");
+            edtMainChildDOB.requestFocus();
+            return;
+        }
 
+        localChildDOB = new DOB(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]), Integer.parseInt(splitDate[2]));
         localChild.setChildName(mainChildName);
         localChild.setPlaceOfBirth(mainChildPOB);
-        localChild.setChildAge(mainChildAge);
+        localChild.setChildAge(Integer.parseInt(stringAge));
         localChild.setChildID(randomGenerator.nextInt(999999999));
+        localChild.setChildDOB(localChildDOB);
 
-        databaseReference.child("child" + localChild.getChildID()).setValue(localChild)
+        //copying the list to a local list and then adding the current child and then again saving it.
+        List<childDB> copyList = new ArrayList<>();
+        copyList = localUser.getUserChildren();
+        if (copyList.get(0).getChildID() == -1) {
+            copyList.clear();
+        }
+        copyList.add(localChild);
+        localUser.setUserChildren(copyList);
+
+        databaseReference
+                .child(firebaseUser.getUid())
+                .setValue(localUser)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

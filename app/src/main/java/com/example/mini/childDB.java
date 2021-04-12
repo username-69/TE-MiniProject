@@ -3,22 +3,25 @@ package com.example.mini;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class childDB {
     private int childID;
     private String childName, placeOfBirth;
-    //    private LocalDate birthDate;
     private int childAge, childGender;
-//    private ArrayList<VaccineData> childVaccines;
+    private DOB childDOB;
+    private List<VaccineData> childVaccines;
 
     public childDB() {
     }
 
-    public childDB(int childID, String childName, String placeOfBirth, int childGender) {
+    public childDB(int childID, String childName, String placeOfBirth, int childAge, int childGender, DOB childDOB) {
         this.childID = childID;
         this.childName = childName;
         this.placeOfBirth = placeOfBirth;
+        this.childAge = childAge;
         this.childGender = childGender;
+        this.childDOB = childDOB;
     }
 
     public int getChildID() {
@@ -45,14 +48,6 @@ public class childDB {
         this.placeOfBirth = placeOfBirth;
     }
 
-//    public LocalDate getBirthDate() {
-//        return birthDate;
-//    }
-//
-//    public void setBirthDate(LocalDate birthDate) {
-//        this.birthDate = birthDate;
-//    }
-
     public int getChildAge() {
         return childAge;
     }
@@ -69,11 +64,19 @@ public class childDB {
         this.childGender = childGender;
     }
 
-//    public ArrayList<VaccineData> getChildVaccines() {
-//        return childVaccines;
-//    }
-//
-//    public void setChildVaccines(ArrayList<VaccineData> childVaccines) {
-//        this.childVaccines = childVaccines;
-//    }
+    public DOB getChildDOB() {
+        return childDOB;
+    }
+
+    public void setChildDOB(DOB childDOB) {
+        this.childDOB = childDOB;
+    }
+
+    public List<VaccineData> getChildVaccines() {
+        return childVaccines;
+    }
+
+    public void setChildVaccines(List<VaccineData> childVaccines) {
+        this.childVaccines = childVaccines;
+    }
 }

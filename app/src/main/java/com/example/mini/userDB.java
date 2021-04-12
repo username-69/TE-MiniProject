@@ -1,28 +1,22 @@
 package com.example.mini;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class userDB {
-    private String userEmail;
-    private ArrayList<childDB> userChildren;
+    private List<childDB> userChildren;
 
-    public userDB(String userEmail) {
-        this.userEmail = userEmail;
+    public userDB() {
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public userDB(List<childDB> userChildren) {
+        this.userChildren = userChildren;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public ArrayList<childDB> getUserChildren() {
+    public List<childDB> getUserChildren() {
         return userChildren;
     }
 
-    public void setUserChildren(ArrayList<childDB> userChildren) {
+    public void setUserChildren(List<childDB> userChildren) {
         this.userChildren = userChildren;
     }
 }

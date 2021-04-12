@@ -2,12 +2,23 @@ package com.example.mini;
 
 public class VaccineData {
     private String vaccineName;
-    private short vaccineWeek;
+    private int vaccineWeek, vaccineDose;
     private boolean isVaccincated;
 
-    public VaccineData(String vaccineName, short vaccineWeek) {
+    public VaccineData() {
+    }
+
+    public VaccineData(String vaccineName, int vaccineWeek, int vaccineDose) {
         this.vaccineName = vaccineName;
         this.vaccineWeek = vaccineWeek;
+        this.vaccineDose = vaccineDose;
+    }
+
+    public VaccineData(String vaccineName, int vaccineWeek, int vaccineDose, boolean isVaccincated) {
+        this.vaccineName = vaccineName;
+        this.vaccineWeek = vaccineWeek;
+        this.vaccineDose = vaccineDose;
+        this.isVaccincated = isVaccincated;
     }
 
     public String getVaccineName() {
@@ -18,12 +29,20 @@ public class VaccineData {
         this.vaccineName = vaccineName;
     }
 
-    public short getVaccineWeek() {
+    public int getVaccineWeek() {
         return vaccineWeek;
     }
 
-    public void setVaccineWeek(short vaccineWeek) {
+    public void setVaccineWeek(int vaccineWeek) {
         this.vaccineWeek = vaccineWeek;
+    }
+
+    public int getVaccineDose() {
+        return vaccineDose;
+    }
+
+    public void setVaccineDose(int vaccineDose) {
+        this.vaccineDose = vaccineDose;
     }
 
     public boolean isVaccincated() {
