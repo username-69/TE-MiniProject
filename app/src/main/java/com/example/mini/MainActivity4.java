@@ -46,7 +46,6 @@ public class MainActivity4 extends AppCompatActivity {
     private userDB currentUser;
     private userDB userFetchedFromDB;
     private int spinnerItemNumber = -1;
-    private String defaultName = "108Name108108";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,7 @@ public class MainActivity4 extends AppCompatActivity {
 //                adding all the names to the Adapter
                 for (int i = 0; i < userFetchedFromDB.getUserChildren().size(); i++) {
                     //adding the names from local object
-                    if (userFetchedFromDB.getUserChildren().get(i).getChildName() != defaultName) {
+                    if (!(userFetchedFromDB.getUserChildren().get(i).getChildID() < 0)) {
                         Log.d("ChildrenName", userFetchedFromDB.getUserChildren().get(i).getChildName());
                         userChildrenList.add(userFetchedFromDB.getUserChildren().get(i).getChildName());
                     }
@@ -116,7 +115,7 @@ public class MainActivity4 extends AppCompatActivity {
 
     private void spinnerFunction() {
         for (String defaultChildName : userChildrenList) {
-            if (defaultChildName == defaultName) {
+            if (defaultChildName == "108Name108108") {
                 userChildrenList.remove(defaultChildName);
             }
             ;

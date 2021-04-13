@@ -90,8 +90,8 @@
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.314" />
 
-    <EditText
-        android:id="@+id/edtActChildAge"
+    <TextView
+        android:id="@+id/tVActChildAge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -104,7 +104,8 @@
         android:ellipsize="end"
         android:ems="10"
         android:hint="Age of Child (in Weeks)"
-        android:inputType="number"
+        android:textColor="#000000"
+        android:textSize="16dp"
         android:padding="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
