@@ -253,4 +253,10 @@ public class MainActivity3 extends AppCompatActivity {
         Intent childSentToCloud = new Intent(MainActivity3.this, MainActivity4.class);
         startActivity(childSentToCloud);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        OpenActivity4();
+    }
 }

@@ -161,4 +161,11 @@ public class MainActivity2 extends AppCompatActivity {
         startActivity(intentRegisterSuccess);
         Toast.makeText(MainActivity2.this, "Kindly verify your Email ID.", Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent onBackIntent = new Intent(MainActivity2.this, MainActivity.class);
+        startActivity(onBackIntent);
+    }
 }
