@@ -3,6 +3,7 @@ package com.example.mini;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -32,6 +33,20 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtMainSignInEmail, edtMainSignInPassword;
     private TextView mainForgotPassword;
     private ProgressBar progressBarMainSignIn;
+    private Button button;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null)
+            if (currentUser.isEmailVerified())
+                OpenActivity4();
+            else {
+                Toast.makeText(MainActivity.this, "Failed to login. Email ID not verified!", Toast.LENGTH_SHORT).show();
+                firebaseUser.sendEmailVerification();
+            }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
                 forgotPasswordMethod();
             }
         });
+    }
+
+    public void openActivity7() {
+        Intent intent = new Intent(this, MainActivity7.class);
+        startActivity(intent);
     }
 
     private void logInSuccessful() {
