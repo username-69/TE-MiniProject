@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Mini</string>
+    <string name="app_name">Child Vaccine Tracker</string>
+    <string name="columnHeadingOne">Vaccine Status</string>
+    <string name="columnHeadingTwo">Age of child</string>
 </resources>
